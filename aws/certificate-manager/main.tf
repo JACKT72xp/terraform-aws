@@ -26,8 +26,8 @@ data "aws_acm_certificate" "certdata" {
 
 resource "aws_route53_record" "validation" {
   zone_id = var.zone_id
-  name =  data.aws_acm_certificate.certdata.domain_validation_options.0.resource_record_name
-  type = data.aws_acm_certificate.certdata.domain_validation_options.0.resource_record_type
-  records = data.aws_acm_certificate.certdata.domain_validation_options.0.resource_record_value
+  name =  data.aws_acm_certificate.certdata.domain_validation_options.*.resource_record_name
+  type = data.aws_acm_certificate.certdata.domain_validation_options.*.resource_record_type
+  records = data.aws_acm_certificate.certdata.domain_validation_options.*.resource_record_value
   ttl = "300"
 }
