@@ -27,9 +27,7 @@ resource "aws_route53_record" "cert_validation" {
   ttl     = 60
 }
 
-resource "aws_acm_certificate_validation" "default" {
-  certificate_arn = "${aws_acm_certificate.cert.arn}"
-  validation_record_fqdns = [
-    "${aws_route53_record.validation.fqdn}",
-  ]
+resource "aws_acm_certificate_validation" "certvalid" {
+  certificate_arn         = "${aws_acm_certificate.cert.arn}"
+  validation_record_fqdns = ["${aws_route53_record.cert_validation.fqdn}"]
 }
