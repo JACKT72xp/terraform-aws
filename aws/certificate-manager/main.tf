@@ -18,3 +18,10 @@ resource "aws_acm_certificate" "cert" {
     create_before_destroy = true
   }
 }
+resource "aws_route53_record" "validation" {
+  zone_id = var.zone_id
+  name = "${aws_acm_certificate.default.domain_validation_options.0.resource_record_name}"
+  type = "${aws_acm_certificate.default.domain_validation_options.0.resource_record_type}"
+  records = ["${aws_acm_certificate.default.domain_validation_options.0.resource_record_value}"]
+  ttl = "300"
+}
