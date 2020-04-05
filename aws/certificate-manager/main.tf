@@ -24,10 +24,10 @@ data "aws_acm_certificate" "certdata" {
   statuses = ["PENDING_VALIDATION"]
 }
 
-resource "aws_route53_record" "validation" {
+resource "aws_route53_record" "cert_validation" {
+  name    = "${aws_acm_certificate.cert.domain_validation_options.0.resource_record_name}"
+  type    = "${aws_acm_certificate.cert.domain_validation_options.0.resource_record_type}"
   zone_id = var.zone_id
-  name =  data.aws_acm_certificate.certdata.domain_validation_options.*.resource_record_name
-  type = data.aws_acm_certificate.certdata.domain_validation_options.*.resource_record_type
-  records = data.aws_acm_certificate.certdata.domain_validation_options.*.resource_record_value
-  ttl = "300"
+  records = ["${aws_acm_certificate.cert.domain_validation_options.0.resource_record_value}"]
+  ttl     = 60
 }
