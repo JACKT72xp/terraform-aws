@@ -24,10 +24,6 @@ variable "instance" {
   description = "The instance id to elb"
   type        = string
 }
-variable "name" {
-  description = "The name to elb"
-  type        = string
-}
 variable "region" {
   description = "The name to region elb"
   type        = string
