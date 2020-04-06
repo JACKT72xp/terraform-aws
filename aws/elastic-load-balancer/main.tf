@@ -19,7 +19,7 @@ resource "aws_subnet" "subnet_ect" {
     Name = "Main"
   }
 }
-
+/* 
 resource "aws_security_group" "allow_tls" {
   name        = "allow_web"
   description = "Allow web inbound traffic"
@@ -78,4 +78,4 @@ resource "aws_alb_listener" "alb_front_https" {
 resource "aws_lb_listener_certificate" "url2_valouille_fr" {
   listener_arn    = "${aws_alb_listener.alb_front_https.arn}"
   certificate_arn = var.arn_certificate
-}
+} */
