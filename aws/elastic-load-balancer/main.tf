@@ -4,11 +4,11 @@ provider "aws" {
 }
 ### Network
 resource "aws_vpc" "main" {
-  cidr_block = "10.10.0.0/16"
+  cidr_block = "10.3.0.0/16"
 }
 
 resource "aws_subnet" "subnet_ect" {
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "10.3.0.0/22"
   ##availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
   vpc_id            = "${aws_vpc.main.id}"
 }
