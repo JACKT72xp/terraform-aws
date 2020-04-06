@@ -2,28 +2,30 @@
 provider "aws" {
   region = var.region
 }
+
+
 ### Network
-resource "aws_vpc" "main" {
+/* resource "aws_vpc" "main" {
   cidr_block = "10.3.0.0/16"
 }
-
-resource "aws_subnet" "subnet_ect" {
+ */
+/* resource "aws_subnet" "subnet_ect" {
   cidr_block = "10.3.0.0/22"
   ##availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
   vpc_id            = "${aws_vpc.main.id}"
-}
+} */
 
 resource "aws_security_group" "allow_tls" {
   name        = "allow_web"
   description = "Allow web inbound traffic"
-  vpc_id      = "${aws_vpc.main.id}"
+  vpc_id      = "vpc-042a927c"
 
   ingress {
     description = "web port"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["${aws_vpc.main.cidr_block}"]
+    cidr_blocks = ["172.31.0.0/16"]
   }
 
   tags = {
@@ -35,12 +37,12 @@ resource "aws_alb" "alb_front" {
 	name		=	"front-alb"
 	internal	=	false
 	security_groups	=	["${aws_security_group.allow_tls.id}"]
-	subnets		=	["${aws_subnet.subnet_ect.id}"]
+	subnets		=	["subnet-6b978212","subnet-73102638","subnet-a56c88f8"]
 	enable_deletion_protection	=	true
 }
 resource "aws_alb_target_group" "alb_front_https" {
 	name	= "alb-front-https"
-	vpc_id	= "${aws_vpc.main.id}"
+	vpc_id	= "vpc-042a927c"
 	port	= "443"
 	protocol	= "HTTPS"
 	health_check {
