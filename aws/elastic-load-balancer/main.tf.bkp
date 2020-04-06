@@ -1,17 +1,29 @@
-# Specify the provider and access details
+terraform {
+    required_version = ">= 0.12"
+}
+
+# Create a new instance of the latest Ubuntu 14.04 on an
+# t2.micro node with an AWS Tag naming it "HelloWorld"
 provider "aws" {
   region = var.region
 }
-### Network
+
+
 resource "aws_vpc" "main" {
-  cidr_block = "10.10.0.0/16"
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "dedicated"
+
+  tags = {
+    Name = "main"
+  }
 }
 
 resource "aws_subnet" "subnet_ect" {
-  count             = var.az_count
-  cidr_block        = "${cidrsubnet(aws_vpc.main.cidr_block, 8, count.index)}"
-  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
-  vpc_id            = "${aws_vpc.main.id}"
+  vpc_id     = "${aws_vpc.main.id}"
+  cidr_block = "10.0.1.0/24"
+  tags = {
+    Name = "Main"
+  }
 }
 
 resource "aws_security_group" "allow_tls" {
